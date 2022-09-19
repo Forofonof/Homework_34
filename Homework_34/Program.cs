@@ -16,26 +16,52 @@ internal class Program
             Console.WriteLine($"Введите число или команду {sum} / {exit}");
             string userInput = Console.ReadLine();
 
-            if (userInput.ToLower() != exit && userInput.ToLower() != sum)
+            switch (userInput.ToLower())
             {
-                int numbers = Convert.ToInt32(userInput);
-                arrayNumbers.Add(numbers);
-            }
-            else if (userInput.ToLower() == sum)
-            {
-                int arraySum = 0;
+                case sum:
+                    SumUpNumbers(arrayNumbers);
+                    break;
 
-                foreach (int arrayNumbersInList in arrayNumbers)
-                {
-                    arraySum += arrayNumbersInList;
-                }
+                case exit:
+                    DoExit(ref isWork);
+                    break;
 
-                Console.WriteLine($"Сумма массива: {arraySum}");
-            }
-            else if (userInput.ToLower() == exit)
-            {
-                isWork = false;
+                default:
+                    AddNumbersUser(userInput, arrayNumbers);
+                    break;
             }
         }
+    }
+
+    static void AddNumbersUser(string userInput, List<int>arrayNumbers)
+    {
+        if (Int32.TryParse(userInput, out int numbers))
+        {
+            arrayNumbers.Add(numbers);
+        }
+        else
+        {
+            Console.WriteLine("Введено неверное значение.");
+        }
+    }
+
+    static void SumUpNumbers(List<int>arrayNumbers)
+    {
+        int arraySum = 0;
+
+        foreach (int arrayNumbersInList in arrayNumbers)
+        {
+           arraySum += arrayNumbersInList;
+        }
+
+        Console.WriteLine($"Сумма массива: {arraySum}");
+    }
+
+    static void DoExit(ref bool isWork)
+    {
+        Console.Clear();
+        Console.WriteLine("Работа программы завершена!");
+
+        isWork = false;
     }
 }
